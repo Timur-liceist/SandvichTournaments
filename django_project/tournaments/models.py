@@ -107,7 +107,7 @@ class TournamentNewsModel(AbstractNews):
         verbose_name_plural = "новости турниров"
 
     def __str__(self):
-        return f"{self.title} ({self.tournament.name})"
+        return f"{self.title} ({self.tournament.title})"
 
 
 class RequestTeamForTournamentModel(models.Model):
@@ -137,22 +137,23 @@ class RequestTeamForTournamentModel(models.Model):
         default="pending",
     )
 
-    def clean(self):
-        if self.status not in [choice[0] for choice in self.CHOICES_STATUS]:
-            raise ValidationError(
-                f"Недопустимое значение статуса: {self.status}"
-            )
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
     class Meta:
         verbose_name = "заявка команды на участие в турнире"
         verbose_name_plural = "заявки команды на участие в турнире"
 
     def __str__(self):
-        return f"Request {self.team.name} ({self.tournament.name})"
+        return f"Request {self.team.name} ({self.tournament.title})"
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        if self.status not in [choice[0] for choice in self.CHOICES_STATUS]:
+            error_message = f"Недопустимое значение статуса: {self.status}"
+            raise ValidationError(
+                error_message,
+            )
 
 
 class BattleModel(models.Model):
@@ -215,4 +216,3 @@ class BattleModel(models.Model):
 
     def __str__(self):
         return f"{self.tournament} {self.created_at} {self.status}"
-

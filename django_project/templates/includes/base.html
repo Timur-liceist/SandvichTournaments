@@ -80,7 +80,7 @@
           {% if not request.user.is_authenticated %}
             <a href="{% url 'social:begin' 'steam' %}">Steam</a>
           {% else %}
-            <a href="{% url 'users:profile' user_id=request.user.id %}"><font style="color: #cc4848">{{ request.user.email }}<font></a>
+            <a href="{% url 'users:profile' user_id=request.user.id %}"><font style="color: #cc4848">{{ request.user.username }}<font></a>
             <a href="{% url 'users:logout' %}">🚪Выйти</a>
           {% endif %}
         </div>

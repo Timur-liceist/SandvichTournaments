@@ -140,6 +140,10 @@ class ProfileView(View):
         form = ProfileForm(
             instance=user_for_update,
         )
+
+        if not is_owner_profile:
+            form.fields.pop("email")
+
         context = {
             "form": form,
             "is_owner_profile": is_owner_profile,

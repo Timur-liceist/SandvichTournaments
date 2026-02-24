@@ -4,16 +4,15 @@ from django.views import View
 
 from news.forms import NewsForm
 from news.models import GeneralNewsModel
+from tournaments.tasks import send_tournament_notification
 
 
 class AllGeneralNewsView(View):
     def get(self, request):
         general_news = GeneralNewsModel.objects.select_related("author").all()
-
         context = {
             "general_news": general_news,
         }
-
         return render(
             request,
             "news/general_news.html",

@@ -16,7 +16,10 @@ from tournaments.models import (
     TournamentModel,
     TournamentNewsModel,
 )
-from tournaments.utils import is_owner_tournament
+from tournaments.utils import (
+    is_owner_tournament,
+    get_all_id_members_tournament,
+)
 
 
 class TournamentCreateView(LoginRequiredMixin, views.View):
@@ -110,11 +113,34 @@ class SendRequestToTournamentView(LoginRequiredMixin, views.View):
             )
 
             if request_team_tournament:  # noqa: SIM102
-                if request_team_tournament.status == "pending":
+                if request_team_tournament.status in ["pending", "accepted"]:
                     form.add_error(
                         None,
                         "Вы уже послали заявку\
-                        и она ожидает ответа",
+                        и она ожидает ответа, или уже принята",
+                    )
+                    context = {
+                        "form": form,
+                    }
+                    return render(
+                        request=request,
+                        context=context,
+                        template_name=template_name,
+                    )
+
+            # Проверка на то что один из участников команды, уже участвует
+            all_id_members_tournament = get_all_id_members_tournament(
+                tournament=tournament,
+            )
+
+            for member_of_team in form.cleaned_data[
+                "team"
+            ].members_by_team.all():
+                if member_of_team.user_id in all_id_members_tournament:
+                    form.add_error(
+                        None,
+                        f"Сокомандник {member_of_team.user} уже состоит в \
+                            другой команде на этом турнире",
                     )
                     context = {
                         "form": form,

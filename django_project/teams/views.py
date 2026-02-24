@@ -180,6 +180,7 @@ class ManageInvitations(LoginRequiredMixin, views.View):
         )
 
 
+# Поменять роль для участника команды
 class ChangeRoleTeamView(LoginRequiredMixin, views.View):
     def post(self, request, team_id, member_id):
         if not is_leader_for_team(user_id=request.user.id, team_id=team_id):
@@ -198,6 +199,7 @@ class ChangeRoleTeamView(LoginRequiredMixin, views.View):
         return redirect("teams:manage_team", team_id=team_id)
 
 
+# Выгнать из команды участника
 class KickMemberTeamView(LoginRequiredMixin, views.View):
     def get(self, request, team_id, member_id):
         if not is_leader_for_team(user_id=request.user.id, team_id=team_id):
@@ -214,6 +216,7 @@ class KickMemberTeamView(LoginRequiredMixin, views.View):
         return redirect("teams:manage_team", team_id=team_id)
 
 
+# Принять приглашение в команду от лидера
 class AcceptInvitationTeamView(LoginRequiredMixin, views.View):
     def get(self, request, invitation_id):
         invitation = InvitationToTeamModel.objects.filter(
@@ -236,6 +239,7 @@ class AcceptInvitationTeamView(LoginRequiredMixin, views.View):
         return redirect("teams:show_team", team_id=invitation.team.id)
 
 
+# Отклонить приглашение лидера в команду
 class RejectInvitationTeamView(LoginRequiredMixin, views.View):
     def get(self, request, invitation_id):
         invitation = InvitationToTeamModel.objects.filter(
@@ -252,6 +256,7 @@ class RejectInvitationTeamView(LoginRequiredMixin, views.View):
         return redirect("teams:show_team", team_id=invitation.team.id)
 
 
+# Просмотр участников команды
 class MemberTeamsView(LoginRequiredMixin, views.View):
     def get(self, request):
         memberships_by_user = (
@@ -277,6 +282,7 @@ class MemberTeamsView(LoginRequiredMixin, views.View):
         )
 
 
+# Мои приглашения в команды
 class MyInvitationsView(LoginRequiredMixin, views.View):
     def get(self, request):
         invitations_by_user = InvitationToTeamModel.objects.filter(
@@ -291,6 +297,7 @@ class MyInvitationsView(LoginRequiredMixin, views.View):
         )
 
 
+# Просмотр команды, если это лидер команды то пересылает на упраление
 class ShowTeamView(LoginRequiredMixin, views.View):
     def get(self, request, team_id):
         if is_leader_for_team(user_id=request.user.id, team_id=team_id):

@@ -32,8 +32,21 @@ if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append("https://" + RENDER_EXTERNAL_HOSTNAME)
     CSRF_TRUSTED_ORIGINS = [f"https://{RENDER_EXTERNAL_HOSTNAME}"]
 
-# Также добавьте localhost для локальной разработки
-ALLOWED_HOSTS.extend(["localhost", "127.0.0.1"])
+
+# URL, по которому будет доступна статика
+STATIC_URL = "/static/"
+
+# Папка, куда collectstatic будет собирать файлы (должна совпадать с путями в docker-compose)
+STATIC_ROOT =  BASE_DIR / "staticfiles"
+
+# Дополнительно: где лежат исходные статики в приложениях
+STATICFILES_DIRS = [
+    BASE_DIR / "static",  # Ваша текущая папка static
+]
+
+# Для загружаемых пользователями файлов
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
 INSTALLED_APPS = [
@@ -125,6 +138,18 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+# Настройки Celery
+# CELERY_BROKER_URL = (
+#     "redis://redis:6379/0"  # Адрес сервиса redis из docker-compose
+# )
+# CELERY_RESULT_BACKEND = (
+#     "redis://redis:6379/0"  # Где хранить результаты задач (опционально)
+# )
+# CELERY_ACCEPT_CONTENT = ["json"]
+# CELERY_TASK_SERIALIZER = "json"
+# CELERY_RESULT_SERIALIZER = "json"
+# CELERY_TIMEZONE = "Europe/Moscow"  # Или ваш часовой пояс
 
 STEAM_API_KEY = os.getenv("STEAM_API_KEY", "")
 STEAM_ID_REGEX = re.compile(r"https://steamcommunity.com/openid/id/(\d+)")

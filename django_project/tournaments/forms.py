@@ -68,7 +68,7 @@ class RequestTeamTournamentForm(forms.Form):
             },
         ),
         queryset=TeamModel.objects,
-        required=False,
+        required=True,
     )
 
     def set_team_selecting(self, leader_user):

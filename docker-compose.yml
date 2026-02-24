@@ -3,17 +3,28 @@ version: "3.8"
 services:
   web:
     build: .
-    ports:
-      - "8000:8000"
+    # В продакшене порт 8000 обычно не пробрасываем наружу напрямую,
+    # доступ идет только через nginx внутри сети docker.
+    # Но можно оставить для отладки, если нужно.
     volumes:
       - .:/home/app
+      # Создаем именованный том для статики, чтобы делиться ею с nginx
+      - static_volume:/home/app/django_project/staticfiles
+      - logs_volume:/home/app/django_project/logs
     env_file:
       - .env
     depends_on:
       - db
+    # ДОБАВЛЕНО: PYTHONPATH указывает на папку, где лежат приложения
+    environment:
+      - PYTHONPATH=/home/app/django_project
+      # Убедитесь, что путь к settings тоже правильный (с двойным названием)
+      - DJANGO_SETTINGS_MODULE=django_project.settings
     command: >
-      sh -c "python django_project/manage.py migrate &&
-             python django_project/manage.py runserver 0.0.0.0:8000"
+      sh -c "python django_project/manage.py collectstatic --noinput &&
+             python django_project/manage.py migrate &&
+             gunicorn django_project.wsgi:application --bind 0.0.0.0:8000"
+    restart: always
 
   db:
     image: postgres:15
@@ -25,6 +36,22 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     expose:
       - "5432"
+    restart: always
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      # - "443:443" # Раскомментируйте, когда подключите SSL
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - static_volume:/home/app/django_project/staticfiles
+      - logs_volume:/home/app/django_project/logs
+    depends_on:
+      - web
+    restart: always
 
 volumes:
   postgres_data:
+  static_volume:
+  logs_volume:
