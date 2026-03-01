@@ -33,4 +33,4 @@ EXPOSE 8000
 
 # CMD оставляем пустым или дефолтным, так как docker-compose его переопределит
 # Но для локального запуска без compose можно оставить:
-CMD ["gunicorn", "django_project.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "django_project.django_project.wsgi:application", "--bind", "0.0.0.0:8000"]
