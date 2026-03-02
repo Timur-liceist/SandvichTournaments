@@ -10,8 +10,44 @@
             "date_joined": "2025-11-26T21:13:19.462Z",
             "steamid64": "76561197999209838",
             "bio": "",
-            "username": "",
+            "username": "Rusik",
             "email": "ochilov-timka@yandex.ru",
+            "is_public_profile": true,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.usermodel",
+        "pk": 1,
+        "fields": {
+            "last_login": "2025-11-26T21:14:44.066Z",
+            "is_superuser": true,
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2025-11-26T21:13:19.462Z",
+            "steamid64": "76561198422035477",
+            "bio": "",
+            "username": "Ogurec",
+            "email": "ogurec@mail.ru",
+            "is_public_profile": true,
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.usermodel",
+        "pk": 1,
+        "fields": {
+            "last_login": "2025-11-26T21:14:44.066Z",
+            "is_superuser": true,
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2025-11-26T21:13:19.462Z",
+            "steamid64": "76561198800006186",
+            "bio": "",
+            "username": "Kyler",
+            "email": "kyler@mail.ru",
             "is_public_profile": true,
             "groups": [],
             "user_permissions": []

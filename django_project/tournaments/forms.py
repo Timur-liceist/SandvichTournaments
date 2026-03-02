@@ -125,7 +125,17 @@ class BattleForm(forms.ModelForm):
         ),
         input_formats=["%Y-%m-%dT%H:%M", "%Y-%m-%d %H:%M", "%d.%m.%Y %H:%M"],
     )
-
+    status = forms.ChoiceField(
+        label="Первая команда",
+        widget=forms.Select(
+            attrs={
+                "class": "form-control",
+                "placeholder": "Выбери команду",
+            },
+        ),
+        choices=BattleModel.CHOICES_STATUS,
+        required=True,
+    )
     def set_team_selecting(
         self,
         teams_by_tournament,
@@ -142,6 +152,7 @@ class BattleForm(forms.ModelForm):
             "second_team",
             "judge",
             "start_datetime",
+            "status",
         ]
 
 

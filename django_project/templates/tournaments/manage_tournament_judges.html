@@ -7,11 +7,13 @@
     {% for judge in judges %}
         <h2 class="card-header">
                 <span class="header-username"><a class="card-link" href="{% url 'users:profile' user_id=judge.id %}">{{ judge.username }}</a></span>
-                <a href="{% url 'tournaments:remove_judge' user_id=judge.id tournament_id=tournament_id %}">
-                    <button class="card-button w-100 accept_button" align="right">
-                        Удалить
-                    </button>
-                </a>
+                {% if is_owner_tournament %}
+                    <a href="{% url 'tournaments:remove_judge' user_id=judge.id tournament_id=tournament_id %}">
+                        <button class="card-button w-100 accept_button" align="right">
+                            Удалить
+                        </button>
+                    </a>
+                {% endif %}
             </h2>
     {% endfor %}
 <div>

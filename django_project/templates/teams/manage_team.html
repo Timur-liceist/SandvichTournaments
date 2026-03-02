@@ -4,49 +4,46 @@
 {% block content %}
 
 <div class="card-container">
-    <h1 align="center">Team - {{ team.name }}</h1>
     <a href="{% url "teams:manage_invitations" team_id=team.id %}">
         <button class="card-button w-100">
             Управление приглашениями
         </button>
     </a>
-    <div class="card-inner-container">
-        <h2 align="center">Участники</h2>
-        {% for member in members %}
-            <div class="card-inner-container">
-                <h3 class="card-header">
-                    <span class="header-username">{{ member.user.username }}</span>
-                    <span class="header-status">{{ member.role }}</span>
-                </h3>
-                <div>
+    <h1 style="margin-top: 20px" align="center">Участники <font color="#cc4848">{{ team.name }}</font></h1>
+    {% for member in members %}
+        <div class="card-inner-container">
+            <h3 class="card-header">
+                <span class="header-username">{{ member.user.username }}</span>
+                <span class="header-status">{{ member.role }}</span>
+            </h3>
+            <div>
+                <div class="spoiler">
+                    <button class="spoiler-toggle">Изменить роль</button>
+                    <div class="spoiler-content">
+                        <form method="POST" action="{% url 'teams:change_role_member_team' team_id=team.id member_id=member.id %}">
+                            {% csrf_token %}
+                            {{ form_change_role_team.role }}
+                            <button class="card-button w-100">Изменить</button>
+                        </form>
+                    </div>
+                </div>
+                {% if team.leader != member.user %}
                     <div class="spoiler">
-                        <button class="spoiler-toggle">Изменить роль</button>
+                        <button class="spoiler-toggle">Выгнать</button>
                         <div class="spoiler-content">
-                            <form method="POST" action="{% url 'teams:change_role_member_team' team_id=team.id member_id=member.id %}">
-                                {% csrf_token %}
-                                {{ form_change_role_team.role }}
-                                <button class="card-button w-100">Изменить</button>
-                            </form>
+                            <h3 class="card-header">
+                                Выгнать участника?
+                            </h3>
+                            <a href="{% url 'teams:kick_member_team' team_id=team.id member_id=member.user.id %}">
+                                <button class="card-button w-100">
+                                    Да, я уверен
+                                </button>
+                            </a>
                         </div>
                     </div>
-                    {% if team.leader != member.user %}
-                        <div class="spoiler">
-                            <button class="spoiler-toggle">Выгнать</button>
-                            <div class="spoiler-content">
-                                <h3 class="card-header">
-                                    Выгнать участника?
-                                </h3>
-                                <a href="{% url 'teams:kick_member_team' team_id=team.id member_id=member.user.id %}">
-                                    <button class="card-button w-100">
-                                        Да, я уверен
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
+                {% endif %}
             </div>
-        {% endfor %}
-    <div>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

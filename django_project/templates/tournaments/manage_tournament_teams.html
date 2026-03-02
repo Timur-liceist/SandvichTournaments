@@ -2,42 +2,19 @@
 {% endblock %} {% block content %} {% load markdown_filters %}
 <div class="card-container">
     {% include "includes/tabs_manage_tournament.html" %}
-    <a href="{% url 'tournaments:create_battle' tournament_id=tournament_id %}">
-        <button class="card-button w-100">
-            Назначить сражение
-        </button>
-    </a>
-    <div class="card-table-container">
-        <table class="card-table">
-            <thead>
-            <tr>
-                <th>Название команды</th>
-                <th>Статус</th>
-            </tr>
-            </thead>
-            <tbody>
-                {% for battle in battles %}
-                    <tr>
-                        <td>{{ battle.start_datetime }}</td>
-                        <td>
-                            <a class="card-link" href="{% url 'teams:show_team' team_id=battle.first_team.id %}">
-                                {{ battle.first_team }}
-                            </a>
-                        </td>
-                        <td>
-                            <a class="card-link" href="{% url 'teams:show_team' team_id=battle.second_team.id %}">
-                                    {{ battle.second_team }}
-                            </a>
-                        </td>
-                        <td>
-                            <a class="card-link" href="{% url 'users:profile' user_id=battle.judge.id %}">
-                                {{ battle.judge }}
-                            </a>
-                        </td>
-                        <td>{{ battle.get_status_display }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <h1>Команды</h1>
+    <hr class="card-hr">
+    {% for team in teams %}
+        <h2 class="card-header">
+                {% comment %} <span class="header-username"><a class="card-link" href="{% url 'users:profile' user_id=judge.id %}">{{ team.name }}</a></span> {% endcomment %}
+                <span class="header-username"><a class="card-link" href="#">{{ team.name }}</a></span>
+                {% comment %} <a href="{% url 'tournaments:remove_judge' user_id=judge.id tournament_id=tournament_id %}"> {% endcomment %}
+                <a href="#">
+                    <button class="card-button w-100 accept_button" align="right">
+                        Удалить
+                    </button>
+                </a>
+            </h2>
+    {% endfor %}
 <div>
 {% endblock %}

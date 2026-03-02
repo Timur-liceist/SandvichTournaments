@@ -1,24 +1,26 @@
 {% extends "includes/base.html" %} {% block title %}Создание новости 
 {% endblock %} {% block content %} {% load markdown_filters %}
 <div class="card-container">
-    {% include "includes/tabs_manage_tournament.html" with tournament_id=tournament_id%}
+    {% include "includes/tabs_manage_tournament.html" with tournament_id=tournament_id %}
     {% for request_team_tournament in all_team_member_requests %}
             <h2 class="card-header">
                 <span class="header-username">{{ request_team_tournament.team.name }}</span>
                 <span class="header-status" request_id={{request_team_tournament.id}}>{{ request_team_tournament.get_status_display }}</span>
-                {% if request_team_tournament.status == "pending" %}
-                
-                    <a href="#">
-                        <button class="card-button w-100 accept_button" request_id={{request_team_tournament.id}} align="right">
-                            ✓ Принять
-                        </button>
-                    </a>
-                    <a href="#">
-                        <button class="card-button w-100 reject_button" request_id={{request_team_tournament.id}} align="right">
-                            ✕ Отклонить
-                        </button>
-                    </a>
-                {% else %}
+                {% if is_owner_tournament %}
+                    {% if request_team_tournament.status == "pending" %}
+                    
+                        <a href="#">
+                            <button class="card-button w-100 accept_button" request_id={{request_team_tournament.id}} align="right">
+                                ✓ Принять
+                            </button>
+                        </a>
+                        <a href="#">
+                            <button class="card-button w-100 reject_button" request_id={{request_team_tournament.id}} align="right">
+                                ✕ Отклонить
+                            </button>
+                        </a>
+                    {% else %}
+                    {% endif %}
                 {% endif %}
             </h2>
     {% endfor %}

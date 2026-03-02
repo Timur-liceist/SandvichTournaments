@@ -3,14 +3,14 @@
 
 {% block content %}
 <div class="card-container">
-{% if created_teams_by_user %}
-  <h1 align="center">Все команды, где вы <font color="#c84747">ЛИДЕР</font></h1>
-{% endif %}
 <a href="{% url 'teams:create_team' %}">
     <button class="card-button w-100" align="right">
         Создать команду
     </button>
 <a>
+{% if created_teams_by_user %}
+  <h1 align="center">Все команды, где вы <font color="#c84747">ЛИДЕР</font></h1>
+{% endif %}
 {% for team in created_teams_by_user %}
 <div class="card-inner-container">
     <h2 class="card-header">

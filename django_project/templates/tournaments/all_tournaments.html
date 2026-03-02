@@ -60,13 +60,11 @@
       </a>
     </div>
   {% endif %}
-  {% if tournament.owner == request.user or request.user.is_superuser %}
-    <a href="{% url 'tournaments:manage_tournament_battles' tournament_id=tournament.id %}">
-      <button class="card-button-inverted w-100">
-        Управление турниром
-      </button>
-    </a>
-  {% endif %}
+  <a href="{% url 'tournaments:manage_tournament_battles' tournament_id=tournament.id %}">
+    <button class="card-button-inverted w-100">
+      Подробнее
+    </button>
+  </a>
 </div>
 {% empty %}
 <div class="card-container container mt-5">
