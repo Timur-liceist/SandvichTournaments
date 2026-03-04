@@ -1,4 +1,5 @@
 from tournaments.models import TournamentModel
+from users.models import UserModel
 
 
 def is_owner_tournament(
@@ -15,9 +16,9 @@ def is_owner_tournament(
         tournament = TournamentModel.objects.filter(id=tournament_id).first()
 
     if user_id:
-        user = TournamentModel.objects.filter(id=user_id).first()
+        user = UserModel.objects.filter(id=user_id).first()
 
-    return user == tournament.owner
+    return user == tournament.owner or user.is_superuser
 
 
 # Функция для получения всех id участников турнира
