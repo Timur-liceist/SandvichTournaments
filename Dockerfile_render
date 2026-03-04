@@ -28,4 +28,4 @@ USER app
 
 EXPOSE 8000
 
-CMD ["sh", "-c", "python django_project/manage.py loaddata fixtures/admins.json fixtures/data_.json && python django_project/manage.py migrate && python django_project/manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "python django_project/manage.py migrate && python django_project/manage.py loaddata fixtures/admins.json fixtures/data_.json && python django_project/manage.py runserver 0.0.0.0:8000"]
