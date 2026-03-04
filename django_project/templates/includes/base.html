@@ -76,7 +76,7 @@
           <a href="{% url 'teams:select_type_team_view' %}">🤝Команды</a>
           <a href="{% url 'tournaments:all_tournaments' %}">🏆Турниры</a>
           <a href="{% url 'teams:my_invitations' %}">📩Мои приглашения</a>
-          <a href="{% url 'tournaments:user_all_request_team_tournament' %}">📃Заявки на участие</a>
+          <a href="{% url 'tournaments:user_all_request_team_tournament' %}">📃Заявки на участие твоих команд</a>
           {% if not request.user.is_authenticated %}
             <a href="{% url 'social:begin' 'steam' %}">Steam</a>
           {% else %}

@@ -3,14 +3,12 @@
 <div class="card-container">
     {% include "includes/tabs_manage_tournament.html" %}
 
-</div>
 {% if is_owner_tournament %}
-<div class="card-container">
     <a href="{% url 'tournaments:tournament_create_news' tournament_id=tournament_id %}">
     <button class="card-button w-100">Написать новость</button>
     </a>
+    {% endif %}
 </div>
-{% endif %}
 
 {% for news in tournament_news %}
 <div

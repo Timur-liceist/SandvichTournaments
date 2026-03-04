@@ -6,14 +6,14 @@
     <hr class="card-hr">
     {% for team in teams %}
         <h2 class="card-header">
-                {% comment %} <span class="header-username"><a class="card-link" href="{% url 'users:profile' user_id=judge.id %}">{{ team.name }}</a></span> {% endcomment %}
-                <span class="header-username"><a class="card-link" href="#">{{ team.name }}</a></span>
-                {% comment %} <a href="{% url 'tournaments:remove_judge' user_id=judge.id tournament_id=tournament_id %}"> {% endcomment %}
-                <a href="#">
-                    <button class="card-button w-100 accept_button" align="right">
-                        Удалить
-                    </button>
-                </a>
+                <span class="header-username"><a class="card-link" href="{% url 'teams:show_team' team_id=team.id %}">{{ team.name }}</a></span>
+                {% if is_owner_tournament %}
+                    <a href="{% url 'tournaments:delete_tournament_team' tournament_id=tournament_id team_id=team.id %}">
+                        <button class="card-button w-100 accept_button" align="right">
+                            Удалить
+                        </button>
+                    </a>
+                {% endif %}
             </h2>
     {% endfor %}
 <div>

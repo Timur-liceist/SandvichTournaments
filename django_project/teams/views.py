@@ -271,7 +271,7 @@ class MemberTeamsView(LoginRequiredMixin, views.View):
         member_teams = []
         for membership in memberships_by_user:
             if membership.team.leader.id != request.user.id:
-                member_teams.append(membership)
+                member_teams.append(membership.team)
 
         return render(
             request=request,

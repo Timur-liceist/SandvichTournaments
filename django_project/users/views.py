@@ -20,7 +20,6 @@ class RegistrationView(View):
     def get(self, request):
         form = RegistrationForm()
 
-        print(request.session.get("steam_id"), "steam_id")
         # Проверка, есть ли steam_id в сессии
         if request.session.get("steam_id") is None:
             return redirect("forbidden")
@@ -36,7 +35,6 @@ class RegistrationView(View):
 
     def post(self, request):
         form = RegistrationForm(request.POST)
-        print(1)
 
         if form.is_valid():
             new_user = form.save(commit=False)
@@ -56,7 +54,6 @@ class RegistrationView(View):
         context = {
             "form": form,
         }
-        print(form.errors)
         return render(
             request,
             "users/registration.html",

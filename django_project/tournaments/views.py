@@ -17,8 +17,8 @@ from tournaments.models import (
     TournamentNewsModel,
 )
 from tournaments.utils import (
-    is_owner_tournament,
     get_all_id_members_tournament,
+    is_owner_tournament,
 )
 
 
@@ -699,8 +699,6 @@ class ManageTeamsTournamentView(LoginRequiredMixin, views.View):
             .first()
             .team_members.all()
         )
-        
-        print(teams, "| teams")
 
         context = {
             "teams": teams,
@@ -715,4 +713,24 @@ class ManageTeamsTournamentView(LoginRequiredMixin, views.View):
             request=request,
             template_name="tournaments/manage_tournament_teams.html",
             context=context,
+        )
+
+
+class DeleteTeamTournamentView(LoginRequiredMixin, views.View):
+    def get(self, request, tournament_id, team_id):
+        tournament = TournamentModel.objects.filter(
+            id=tournament_id,
+        ).first()
+
+        if not is_owner_tournament(
+            tournament_id=tournament_id,
+            user=request.user,
+        ):
+            return redirect("forbidden")
+
+        tournament.team_members.remove(team_id)
+
+        return redirect(
+            "tournaments:manage_tournament_teams",
+            tournament_id=tournament_id,
         )

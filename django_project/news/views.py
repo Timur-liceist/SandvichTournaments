@@ -4,7 +4,6 @@ from django.views import View
 
 from news.forms import NewsForm
 from news.models import GeneralNewsModel
-from tournaments.tasks import send_tournament_notification
 
 
 class AllGeneralNewsView(View):

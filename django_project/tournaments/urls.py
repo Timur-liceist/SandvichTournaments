@@ -62,6 +62,11 @@ urlpatterns = [
         name="manage_tournament_teams",
     ),
     path(
+        "<int:tournament_id>/manage/teams/<int:team_id>/delete",
+        views.DeleteTeamTournamentView.as_view(),
+        name="delete_tournament_team",
+    ),
+    path(
         "<int:tournament_id>/manage/judges/<int:user_id>/remove",
         views.JudgeDeleteView.as_view(),
         name="remove_judge",

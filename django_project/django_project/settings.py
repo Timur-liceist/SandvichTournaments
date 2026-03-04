@@ -20,8 +20,6 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DJANGO_DEBUG", "true") in ["true", "True"]
-print("DEBUG", DEBUG)
-print("SECRET_KEY", SECRET_KEY)
 ALLOWED_HOSTS = [
     "*",
 ]
@@ -80,7 +78,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 # Формат имени файла: logs/app-2025-04-05.log
 LOG_FILE = os.path.join(
-    LOG_DIR, f'app-{datetime.now().strftime("%Y-%m-%d")}.log'
+    LOG_DIR, f'app-{datetime.now().strftime("%Y-%m-%d")}.log',
 )
 
 LOGGING = {

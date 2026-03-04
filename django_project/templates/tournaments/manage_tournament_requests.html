@@ -4,7 +4,7 @@
     {% include "includes/tabs_manage_tournament.html" with tournament_id=tournament_id %}
     {% for request_team_tournament in all_team_member_requests %}
             <h2 class="card-header">
-                <span class="header-username">{{ request_team_tournament.team.name }}</span>
+                <span class="header-username"><a class="card-link" href="{% url 'teams:show_team' team_id=request_team_tournament.team.id %}">{{ request_team_tournament.team.name }}</a></span>
                 <span class="header-status" request_id={{request_team_tournament.id}}>{{ request_team_tournament.get_status_display }}</span>
                 {% if is_owner_tournament %}
                     {% if request_team_tournament.status == "pending" %}

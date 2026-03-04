@@ -1,6 +1,6 @@
-from django.forms import ValidationError
 from core.models import AbstractNews
 from django.db import models
+from django.forms import ValidationError
 from mdeditor.fields import MDTextField
 from teams.models import TeamModel
 from users.models import UserModel

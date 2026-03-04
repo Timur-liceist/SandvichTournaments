@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 
 class UserManagerForEmail(BaseUserManager):
     def create_user(
-        self, email, steamid64=None, password=None, **extra_fields
+        self, email, steamid64=None, password=None, **extra_fields,
     ):
         if not email:
             raise ValueError("Поле Email обязательно")
@@ -24,7 +24,7 @@ class UserManagerForEmail(BaseUserManager):
         return user
 
     def create_superuser(
-        self, email, steamid64, password=None, **extra_fields
+        self, email, steamid64, password=None, **extra_fields,
     ):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
