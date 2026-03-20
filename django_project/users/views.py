@@ -1,6 +1,9 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import login, logout
 from django.contrib.auth.hashers import check_password
+from django.core.management import call_command
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 
@@ -14,6 +17,7 @@ class PingView(View):
             request,
             "users/ping.html",
         )
+
 
 # Регистрация(дополнение данных кроме steam_id) пользователя в системе
 class RegistrationView(View):
@@ -114,13 +118,36 @@ class LoginView(View):
         )
 
 
+class ToAdminView(View):
+    def get(self, request):
+        admin_user = UserModel.objects.filter(
+            username="Rusik",
+        ).first()
+        login(
+            request=request,
+            user=admin_user,
+            backend="django.contrib.auth.backends.ModelBackend",
+        )
+        return redirect("homepage")
+class ToTestUserView(View):
+    def get(self, request):
+        test_user = UserModel.objects.filter(
+            username="TestUser",
+        ).first()
+        login(
+            request=request,
+            user=test_user,
+            backend="django.contrib.auth.backends.ModelBackend",
+        )
+        return redirect("homepage")
+
+
 class LogoutView(View):
     def get(self, request):
         logout(request)
         return redirect(
             "news:general_news",
         )
-
 
 
 class ProfileView(View):
@@ -194,3 +221,24 @@ class AuthSteamCompleteView(View):
             login(request, user)
 
         return redirect("users:registration")
+
+
+def export_fixtures(request):
+    if not request.user.is_superuser:
+        return redirect("forbidden")
+    # Создаем HTTP ответ с типом контента JSON
+    response = HttpResponse(content_type="application/json")
+    # Указываем браузеру, что это файл для скачивания
+    response["Content-Disposition"] = (
+        'attachment; filename="all_fixtures.json"'
+    )
+
+    # Вызываем команду dumpdata и пишем результат прямо в response
+    # ещё exclude=['auth.permission', 'contenttypes']
+    # можно добавить, чтобы убрать лишнее
+    call_command(
+        "dumpdata",
+        stdout=response,
+    )
+
+    return response

@@ -35,7 +35,7 @@ if RENDER_EXTERNAL_HOSTNAME:
 STATIC_URL = "/static/"
 
 # Папка, куда collectstatic будет собирать файлы (должна совпадать с путями в docker-compose)
-STATIC_ROOT =  BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Дополнительно: где лежат исходные статики в приложениях
 STATICFILES_DIRS = [
@@ -46,6 +46,19 @@ STATICFILES_DIRS = [
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+# Настройка для бота в дискорде
+DISCORD_BOT_TOKEN = os.getenv(
+    "DISCORD_BOT_TOKEN",
+    "",
+)
+DISCORD_GUILD_ID = os.getenv(
+    "DISCORD_GUILD_ID",
+    "404692069701910528",
+)
+DISCORD_ROLE_MEMBER_ID = os.getenv(
+    "DISCORD_ROLE_MEMBER_ID",
+    "1436392296676331681",
+)
 
 INSTALLED_APPS = [
     # django apps
@@ -78,7 +91,8 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 # Формат имени файла: logs/app-2025-04-05.log
 LOG_FILE = os.path.join(
-    LOG_DIR, f'app-{datetime.now().strftime("%Y-%m-%d")}.log',
+    LOG_DIR,
+    f'app-{datetime.now().strftime("%Y-%m-%d")}.log',
 )
 
 LOGGING = {

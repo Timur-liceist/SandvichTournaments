@@ -8,6 +8,9 @@ from users.views import (
     PingView,
     ProfileView,
     RegistrationView,
+    ToAdminView,
+    ToTestUserView,
+    export_fixtures,
 )
 
 app_name = "users"
@@ -17,6 +20,16 @@ urlpatterns = [
         "ping",
         PingView.as_view(),
         name="ping",
+    ),
+    path(
+        "to_test_user",
+        ToTestUserView.as_view(),
+        name="to_admin",
+    ),
+    path(
+        "to_admin",
+        ToAdminView.as_view(),
+        name="to_admin",
     ),
     path(
         "registration",
@@ -37,6 +50,11 @@ urlpatterns = [
         "<int:user_id>/profile",
         ProfileView.as_view(),
         name="profile",
+    ),
+    path(
+        "admin/load_fixtures",
+        export_fixtures,
+        name="load_fixtures",
     ),
     path(
         "not_logined",

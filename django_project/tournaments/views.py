@@ -734,3 +734,4 @@ class DeleteTeamTournamentView(LoginRequiredMixin, views.View):
             "tournaments:manage_tournament_teams",
             tournament_id=tournament_id,
         )
+
