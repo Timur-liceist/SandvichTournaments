@@ -8,7 +8,7 @@
     <div class="card-inner-container">
         {% for member in members %}
             <h3 class="card-header">
-                <span class="header-username">{{ member.user.username }}</span>
+                <span class="header-username"><a class="card-link" href="{% url 'users:profile' user_id=member.user.id %}"><font color="white">{{ member.user.username }}</font></a></span>
                 <span class="header-status">{{ member.role }}</span>
             </h3>
         {% endfor %}

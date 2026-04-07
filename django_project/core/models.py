@@ -17,27 +17,3 @@ class AbstractNews(models.Model):
 
     class Meta:
         abstract = True
-
-
-class LikeToNews(models.Model):
-    user = models.ForeignKey(
-        verbose_name="пользователь",
-        to="users.UserModel",
-        on_delete=models.CASCADE,
-        related_name="likes_to_news",
-    )
-
-    class Meta:
-        abstract = True
-
-
-class DislikeToNews(models.Model):
-    user = models.ForeignKey(
-        verbose_name="пользователь",
-        to="users.UserModel",
-        on_delete=models.CASCADE,
-        related_name="likes_to_news",
-    )
-
-    class Meta:
-        abstract = True

@@ -1,9 +1,9 @@
 {% extends "includes/base.html" %}
-{% block title %}Создание турнира{% endblock %}
+{% block title %}Команды где уча{% endblock %}
 
 {% block content %}
 <div class="card-container">
-{% if created_teams_by_user %}
+{% if member_teams %}
   <h1 align="center">Все команды, где вы <font color="#c84747">УЧАСТНИК</font></h1>
 {% endif %}
 

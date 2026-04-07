@@ -8,8 +8,6 @@ from users.views import (
     PingView,
     ProfileView,
     RegistrationView,
-    ToAdminView,
-    ToTestUserView,
     export_fixtures,
 )
 
@@ -20,16 +18,6 @@ urlpatterns = [
         "ping",
         PingView.as_view(),
         name="ping",
-    ),
-    path(
-        "to_test_user",
-        ToTestUserView.as_view(),
-        name="to_admin",
-    ),
-    path(
-        "to_admin",
-        ToAdminView.as_view(),
-        name="to_admin",
     ),
     path(
         "registration",

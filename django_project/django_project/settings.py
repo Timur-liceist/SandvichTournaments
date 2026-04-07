@@ -19,7 +19,34 @@ load_dotenv()
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DJANGO_DEBUG", "true") in ["true", "True"]
+DEBUG = os.getenv("DJANGO_DEBUG", "true") in ["true", "True", "1"]
+USING_POSTGRES = os.getenv("USING_POSTGRES", "false") in ["true", "True", "1"]
+
+POSTGRES_DB = os.getenv("POSTGRES_DB", "postgresql")
+POSTGRES_USER = os.getenv("POSTGRES_USER", "postgresql")
+POSTGRES_PASSWORD = os.getenv("POSTGRES_PASSWORD", "postgresql")
+POSTGRES_HOST = os.getenv("POSTGRES_HOST", "db")
+POSTGRES_PORT = os.getenv("POSTGRES_PORT", "5432")
+
+
+if USING_POSTGRES:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": POSTGRES_DB,
+            "USER": POSTGRES_USER,
+            "PASSWORD": POSTGRES_PASSWORD,
+            "HOST": POSTGRES_HOST,
+            "PORT": POSTGRES_PORT,
+        },
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        },
+    }
 ALLOWED_HOSTS = [
     "*",
 ]
@@ -222,12 +249,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "django_project.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    },
-}
 
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_AGE = 1209600

@@ -14,7 +14,7 @@ RUN useradd --create-home --shell /bin/bash app
 COPY requirements.txt .
 RUN pip install --upgrade pip
 # Добавляем gunicorn, если его вдруг нет в requirements.txt, но лучше добавить туда
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --index-url=https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
 # Копируем весь проект
 COPY . .

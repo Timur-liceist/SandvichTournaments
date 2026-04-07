@@ -110,6 +110,52 @@ class TournamentNewsModel(AbstractNews):
         return f"{self.title} ({self.tournament.title})"
 
 
+# Лайк для турнирной новости
+class LikeToTournamentNews(models.Model):
+    user = models.ForeignKey(
+        verbose_name="пользователь",
+        to="users.UserModel",
+        on_delete=models.CASCADE,
+        related_name="likes_to_tournament_news",
+    )
+    tournament_news = models.ForeignKey(
+        "tournaments.TournamentNewsModel",
+        related_name="likes_to_tournament_news",
+        verbose_name="турнирная новость",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "лайк на турнирную новость"
+        verbose_name_plural = "лайки на турнирную новость"
+
+    def __str__(self):
+        return f"Like to {self.tournament_news} from {self.user}"
+
+
+# ДизЛайк для турнирной новости
+class DislikeToTournamentNews(models.Model):
+    user = models.ForeignKey(
+        verbose_name="пользователь",
+        to="users.UserModel",
+        on_delete=models.CASCADE,
+        related_name="dislikes_to_tournament_news",
+    )
+    tournament_news = models.ForeignKey(
+        "tournaments.TournamentNewsModel",
+        related_name="dislikes_to_tournament_news",
+        verbose_name="турнирная новость",
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        verbose_name = "дизлайк на турнирную новость"
+        verbose_name_plural = "дизлайки на турнирную новость"
+
+    def __str__(self):
+        return f"DisLike to {self.tournament_news} from {self.user}"
+
+
 class RequestTeamForTournamentModel(models.Model):
     CHOICES_STATUS = [
         ("pending", "Ожидается"),

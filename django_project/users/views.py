@@ -118,30 +118,6 @@ class LoginView(View):
         )
 
 
-class ToAdminView(View):
-    def get(self, request):
-        admin_user = UserModel.objects.filter(
-            username="Rusik",
-        ).first()
-        login(
-            request=request,
-            user=admin_user,
-            backend="django.contrib.auth.backends.ModelBackend",
-        )
-        return redirect("homepage")
-class ToTestUserView(View):
-    def get(self, request):
-        test_user = UserModel.objects.filter(
-            username="TestUser",
-        ).first()
-        login(
-            request=request,
-            user=test_user,
-            backend="django.contrib.auth.backends.ModelBackend",
-        )
-        return redirect("homepage")
-
-
 class LogoutView(View):
     def get(self, request):
         logout(request)

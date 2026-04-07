@@ -561,7 +561,10 @@ class CreateTournamentNewsView(LoginRequiredMixin, views.View):
             news.tournament_id = tournament_id
             news.save()
 
-        return redirect("news:general_news")
+        return redirect(
+            "tournaments:tournament_news",
+            tournament_id=tournament_id,
+        )
 
 
 class EditTournamentNewsView(LoginRequiredMixin, views.View):
@@ -735,3 +738,8 @@ class DeleteTeamTournamentView(LoginRequiredMixin, views.View):
             tournament_id=tournament_id,
         )
 
+
+# Отправка лайка на турнирную новость
+class SendLikeToTournamentNewsView(LoginRequiredMixin, views.View):
+    def get(self, request, tournament_id, tournament_news_id):
+        pass
