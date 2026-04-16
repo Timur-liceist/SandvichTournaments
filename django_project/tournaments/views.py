@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from teams.models import MemberModel
+from users.models import UserModel
 
 from tournaments.forms import (
     BattleForm,
@@ -40,6 +41,9 @@ class TournamentCreateView(LoginRequiredMixin, views.View):
         )
 
     def post(self, request):
+        if not request.user.is_superuser:
+            return redirect("forbidden")
+
         form = TournamentCreateForm(request.POST)
 
         if form.is_valid():
@@ -328,7 +332,7 @@ class EditBattleView(LoginRequiredMixin, views.View):
 
 
 class DeleteBattleView(LoginRequiredMixin, views.View):
-    def get(self, request, tournament_id, battle_id):
+    def post(self, request, tournament_id, battle_id):
         is_owner = is_owner_tournament(
             tournament_id=tournament_id,
             user=request.user,
@@ -652,8 +656,8 @@ class ManageJudgesView(LoginRequiredMixin, views.View):
 
 
 # Удаление судьи из турнира
-class JudgeDeleteView(LoginRequiredMixin, views.View):
-    def get(self, request, tournament_id, user_id):
+class DeleteJudgeView(LoginRequiredMixin, views.View):
+    def post(self, request, tournament_id, user_id):
         if not is_owner_tournament(
             tournament_id=tournament_id,
             user=request.user,
@@ -674,7 +678,7 @@ class JudgeDeleteView(LoginRequiredMixin, views.View):
 
 # Добавление судьи в турнир
 class AddJudgeView(LoginRequiredMixin, views.View):
-    def get(self, request, tournament_id, user_id):
+    def post(self, request, tournament_id, username):
         if not is_owner_tournament(
             tournament_id=tournament_id,
             user=request.user,
@@ -685,7 +689,10 @@ class AddJudgeView(LoginRequiredMixin, views.View):
             id=tournament_id,
         ).first()
 
-        tournament.judges.add(user_id)
+        new_judge_user = UserModel.objects.filter(
+            username=username,
+        )
+        tournament.judges.add(new_judge_user)
 
         return redirect(
             "tournaments:manage_tournament_judges",
@@ -720,7 +727,7 @@ class ManageTeamsTournamentView(LoginRequiredMixin, views.View):
 
 
 class DeleteTeamTournamentView(LoginRequiredMixin, views.View):
-    def get(self, request, tournament_id, team_id):
+    def post(self, request, tournament_id, team_id):
         tournament = TournamentModel.objects.filter(
             id=tournament_id,
         ).first()

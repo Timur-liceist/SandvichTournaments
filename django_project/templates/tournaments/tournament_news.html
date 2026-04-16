@@ -30,14 +30,14 @@
         <p>{{ news.content | markdown | safe }}</p>
     </div>
 
-    <div class="card-footer">
+    {% comment %} <div class="card-footer">
         <button class="card-button" onclick="likePost()">
             👍 <span id="like-count">0</span>
         </button>
         <button class="card-button" onclick="dislikePost()">
             👎 <span id="dislike-count">0</span>
         </button>
-    </div>
+    </div> {% endcomment %}
 </div>
 {% empty %}
 <div class="card-container container mt-5">

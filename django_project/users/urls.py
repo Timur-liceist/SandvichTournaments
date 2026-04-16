@@ -1,49 +1,47 @@
 from django.urls import path, reverse_lazy
 from django.views.generic import TemplateView
 
-from users.views import (
-    AuthSteamCompleteView,
-    LoginView,
-    LogoutView,
-    PingView,
-    ProfileView,
-    RegistrationView,
-    export_fixtures,
-)
+from users import views
 
 app_name = "users"
 
 urlpatterns = [
     path(
         "ping",
-        PingView.as_view(),
+        views.PingView.as_view(),
         name="ping",
     ),
     path(
         "registration",
-        RegistrationView.as_view(),
+        views.RegistrationView.as_view(),
         name="registration",
     ),
     path(
         "login",
-        LoginView.as_view(),
+        views.LoginView.as_view(),
         name="login",
     ),
     path(
         "logout",
-        LogoutView.as_view(),
+        views.LogoutView.as_view(),
         name="logout",
     ),
     path(
         "<int:user_id>/profile",
-        ProfileView.as_view(),
+        views.ProfileView.as_view(),
         name="profile",
     ),
     path(
         "admin/load_fixtures",
-        export_fixtures,
+        views.export_fixtures,
         name="load_fixtures",
     ),
+    # # Тестовый url для входа в админку
+    # path(
+    #     "admin/login_to_admin",
+    #     views.LoginToAdminView.as_view()  ,  # noqa: ERA001
+    #     name="load_fixtures",  # noqa: ERA001
+    # ),
     path(
         "not_logined",
         TemplateView.as_view(
@@ -78,7 +76,7 @@ urlpatterns = [
     ),
     path(
         "auth/steam/<str:steam_id>/complete",
-        AuthSteamCompleteView.as_view(),
+        views.AuthSteamCompleteView.as_view(),
         name="auth_steam_complete",
     ),
 ]

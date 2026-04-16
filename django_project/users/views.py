@@ -199,6 +199,18 @@ class AuthSteamCompleteView(View):
         return redirect("users:registration")
 
 
+# # Тестовый view для входа в админку
+# class LoginToAdminView(View):
+#     def get(self, request):
+#         user_admin = UserModel.objects.filter(username="Rusik").first()  # noqa: E501, ERA001
+#         login(
+#             request,
+#             user_admin,
+#             backend="django.contrib.auth.backends.ModelBackend",  # noqa: E501, ERA001
+#         )  # noqa: ERA001, RUF100
+#         return redirect("homepage")  # noqa: ERA001
+
+
 def export_fixtures(request):
     if not request.user.is_superuser:
         return redirect("forbidden")

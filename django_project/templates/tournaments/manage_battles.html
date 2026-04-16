@@ -51,11 +51,12 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{% url 'tournaments:delete_battle' tournament_id=tournament_id battle_id=battle.id %}">
+                            <form method="POST" action="{% url 'tournaments:delete_battle' tournament_id=tournament_id battle_id=battle.id %}">
+                                {% csrf_token %}
                                 <button class="card-button w-100">
                                     Удалить
                                 </button>
-                            </a>
+                            </form>
                         </td>
                         {% endif %}
                     </tr>

@@ -68,8 +68,8 @@ urlpatterns = [
     ),
     path(
         "<int:tournament_id>/manage/judges/<int:user_id>/remove",
-        views.JudgeDeleteView.as_view(),
-        name="remove_judge",
+        views.DeleteJudgeView.as_view(),
+        name="delete_judge",
     ),
     path(
         "tournament_reg_is_closed",

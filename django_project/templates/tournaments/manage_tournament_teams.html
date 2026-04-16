@@ -8,11 +8,12 @@
         <h2 class="card-header">
                 <span class="header-username"><a class="card-link" href="{% url 'teams:show_team' team_id=team.id %}">{{ team.name }}</a></span>
                 {% if is_owner_tournament %}
-                    <a href="{% url 'tournaments:delete_tournament_team' tournament_id=tournament_id team_id=team.id %}">
+                    <form method="POST" action="{% url 'tournaments:delete_tournament_team' tournament_id=tournament_id team_id=team.id %}">
+                        {% csrf_token %}
                         <button class="card-button w-100 accept_button" align="right">
                             Удалить
                         </button>
-                    </a>
+                    </form>
                 {% endif %}
             </h2>
     {% endfor %}

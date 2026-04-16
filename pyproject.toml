@@ -20,6 +20,7 @@ requests = "^2.32.5"
 social-auth-app-django = "^5.6.0"
 python-dotenv = "^1.2.1"
 dotenv = "^0.9.9"
+psycopg2-binary = "^2.9.11"
 
 [tool.ruff]
 line-length = 79
@@ -36,7 +37,7 @@ exclude = [
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["D", "ANN", "EXE002", "RUF012", "RUF001", "PERF401", "RUF003"]
+ignore = ["D", "ANN", "EXE002", "RUF012", "RUF001", "PERF401", "RUF003", "TRY003"]
 
 [tool.ruff.format]
 quote-style = "double"

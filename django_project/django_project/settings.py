@@ -47,9 +47,21 @@ else:
             "NAME": BASE_DIR / "db.sqlite3",
         },
     }
+# ALLOWED_HOSTS: безопасный дефолт, переопределяется через env
+_ALLOWED_HOSTS_STR = os.getenv(
+    "DJANGO_ALLOWED_HOSTS",
+    "localhost,127.0.0.1,[::1]",
+)
 ALLOWED_HOSTS = [
-    "*",
+    host.strip() for host in _ALLOWED_HOSTS_STR.split(",") if host.strip()
 ]
+
+# Опционально: запретить ["*"] на уровне кода
+if "*" in ALLOWED_HOSTS and not DEBUG:
+    raise ValueError(
+        "ALLOWED_HOSTS не может содержать '*' в production. "
+        "Укажите конкретные домены через DJANGO_ALLOWED_HOSTS.",
+    )
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 # Добавляем домен Render
 if RENDER_EXTERNAL_HOSTNAME:

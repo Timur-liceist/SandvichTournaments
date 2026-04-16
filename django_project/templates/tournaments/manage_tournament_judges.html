@@ -4,15 +4,17 @@
     {% include "includes/tabs_manage_tournament.html" with tournament_id=tournament_id %}
     <h1>Судьи турнира</h1>
     <hr class="card-hr">
+    
     {% for judge in judges %}
         <h2 class="card-header">
                 <span class="header-username"><a class="card-link" href="{% url 'users:profile' user_id=judge.id %}">{{ judge.username }}</a></span>
                 {% if is_owner_tournament %}
-                    <a href="{% url 'tournaments:remove_judge' user_id=judge.id tournament_id=tournament_id %}">
-                        <button class="card-button w-100 accept_button" align="right">
-                            Удалить
-                        </button>
-                    </a>
+                <form method="POST" action="{% url 'tournaments:delete_judge' user_id=judge.id tournament_id=tournament_id %}">
+                    {% csrf_token %}
+                    <button class="card-button w-100 accept_button" align="right">
+                        Удалить
+                    </button>
+                </form>
                 {% endif %}
             </h2>
     {% endfor %}
